@@ -24,6 +24,10 @@ export default {
       this.postMes.push(data.postMes);
       this.postMesKolvo = data.postMesKolvo;
     },
+    deletePost(index) {
+      this.postMes.splice(index,1);
+      this.postMesKolvo = this.postMesKolvo - 1;
+    }
   }
 }  
 </script>
@@ -47,12 +51,25 @@ export default {
     <div v-for="(el, index) in postMes" :key="index" className='post'>
       <h3 className='post__title'>{{ el.glTitle }}</h3>
       <p className='post__content'>{{ el.glContent }}</p>
+      <button class='delete_post' @click="deletePost(index)">✖</button>
     </div>
   </div>  
 </template>
 
 
 <style>
+.delete_post {
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
+}
+
+.delete_post:hover {
+  text-decoration: underline;
+}
+
+/* Стили для контейнера */
 .container {
   max-width: 800px;
   margin: 6% auto;
@@ -62,6 +79,7 @@ export default {
   box-shadow: -22px 21px 32px 0px rgba(0, 0, 0, 0.40);
 }
 
+/* Заголовок */
 .mainTitle {
   text-align: center;
   color: #001858;
@@ -69,6 +87,7 @@ export default {
   font-size: 48px;
 }
 
+/* Стили для поста */
 .post {
   padding: 16px;
   border-radius: 16px;
@@ -78,18 +97,21 @@ export default {
   margin-bottom: 5px;
 }
 
+/* Заголовок поста */
 .post__title {
   color: #001858;
   font-size: 24px;
   margin-top: 0;
 }
 
+/* Содержание поста */
 .post__content {
   color: #001858;
   font-size: 16px;
   margin: 10px;
 }
 
+/* Стили для кнопки */
 .head_btn {
   color: #001858;
   font-size: 16px;
@@ -102,8 +124,50 @@ export default {
   border-radius: 15px;
 }
 
+.closed { 
+  background-color: #ff0000;
+  margin-left: 10px;
+}
+
 .head_btn:hover {
-  color: #002df8;
-  background-color: rgb(0, 195, 255);
+  background-color: rgb(69, 190, 247);
+}
+
+.closed:hover {
+  background-color: rgb(196, 4, 4);
+}
+
+/* Адаптивные стили */
+@media (max-width: 768px) {
+  .container {
+    margin: 10% auto;
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    margin: 20% auto;
+    padding: 0px 10px 15px 10px;
+    border-radius: 25px;
+    font-size: 14px;
+  }
+
+  .mainTitle {
+    font-size: 36px;
+  }
+
+  .post__title {
+    font-size: 20px;
+  }
+
+  .post__content {
+    font-size: 14px;
+  }
+
+  .head_btn {
+    font-size: 14px;
+    padding: 8px;
+    margin-bottom: 8px;
+  }
 }
 </style>
