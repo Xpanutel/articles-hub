@@ -1,16 +1,12 @@
 <script>
-import Forms from './components/forms.vue';
-import Article from './components/article.vue'
+// импортируем компоненты 
+import Articles from '@/components/Articles.vue'
 
 export default {
-  components: { Forms, Article},
+  components: { Articles }, // подключаем компоненты
   data () {
     return {
-      postMes: [],
-      postMesKolvo: 0,
-      title: '',
-      content: '',
-      modalOpen: false,
+      modalOpen: false, // статус модального окна 
     }
   },
   methods: {
@@ -18,16 +14,6 @@ export default {
     openModal() {
       this.modalOpen = true;
     },
-    receiveData(data) {
-      this.title = data.title;
-      this.content = data.content;
-      this.postMes.push(data.postMes);
-      this.postMesKolvo = data.postMesKolvo;
-    },
-    deletePost(index) {
-      this.postMes.splice(index,1);
-      this.postMesKolvo = this.postMesKolvo - 1;
-    }
   }
 }  
 </script>
@@ -37,22 +23,7 @@ export default {
   <div className='container'>
     <h1 className='mainTitle'>Articles Hub</h1>
     <button @click='openModal'  className='head_btn'>Добавить запись</button>
-    <div v-if="postMesKolvo == 0" className='post'>
-      <h3 className='post__title'>Публикации отсутствуют</h3>
-      <p className='post__content'>К сожалению, но на данный момент нет ни одной публикации на сайте. 
-        Воспользуйтесь кнопкой "Добавить запись" для создание публикации.</p>
-    </div> 
-
-    <!-- передача методов туда - сюда -->
-    <Forms @send-data="receiveData" :modalOpen="modalOpen" @close-modal="modalOpen = false"/>
-
-    <!-- создаем цикл на перебор в массиве и создание новых
-    записей при добавлении значений -->
-    <div v-for="(el, index) in postMes" :key="index" className='post'>
-      <h3 className='post__title'>{{ el.glTitle }}</h3>
-      <p className='post__content'>{{ el.glContent }}</p>
-      <button class='delete_post' @click="deletePost(index)">✖</button>
-    </div>
+    <Articles :modalOpen="modalOpen" @close-modal="modalOpen = false"/>
   </div>  
 </template>
 
@@ -63,6 +34,7 @@ export default {
   border: none;
   color: red;
   cursor: pointer;
+  font-size: 40px;
 }
 
 .delete_post:hover {
